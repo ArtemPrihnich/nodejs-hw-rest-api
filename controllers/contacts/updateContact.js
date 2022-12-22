@@ -1,9 +1,9 @@
-const contactsOperations = require('../../models/contacts')
+const Contact = require("../../models/contact")
 
 const updContact = async (req, res, next) => {
   try {
     const { contactId } = req.params
-    const contact = await contactsOperations.updById(contactId, req.body)
+    const contact = await Contact.findByIdAndUpdate(contactId, req.body, {new:true})
 
     if (!contact) {
       const error = new Error(`Contact with id ${contactId} not found`)
@@ -11,13 +11,8 @@ const updContact = async (req, res, next) => {
       throw error
     }
 
-    res.json({
-      status: 'success',
-      code: 200,
-      data: {
-        contact
-      }
-    })
+    res.json(contact)
+    
   } catch (error) {
     next(error)
   }

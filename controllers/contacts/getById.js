@@ -1,9 +1,9 @@
-const contactsOperations = require('../../models/contacts')
+const Contact = require('../../models/contact')
 
 const getById = async (req, res, next) => {
   try {
-    const { contactId } = req.params;
-    const contact = await contactsOperations.getById(contactId)
+    const { contactId } = req.params
+    const contact = await Contact.findById(contactId)
 
     if (!contact) {
       const error = new Error(`Contact with id ${contactId} not found`)
@@ -11,13 +11,7 @@ const getById = async (req, res, next) => {
       throw error
     }
 
-    res.json({
-      status: 'success',
-      code: 200,
-      data: {
-        contact
-      }
-  })
+    res.json(contact)
   } catch (error) {
     next(error)
   }
