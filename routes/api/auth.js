@@ -1,6 +1,6 @@
 const express = require('express')
 
-const { validation, authenticate } = require('../../middlewares')
+const { validation, authenticate, upload } = require('../../middlewares')
 const { userSchema } = require('../../schemas')
 const {auth: controller} = require('../../controllers')
 
@@ -15,5 +15,7 @@ router.get('/current', authenticate, controller.current)
 router.get('/logout', authenticate, controller.logout)
 
 router.patch('/subscription', authenticate, validation(userSchema.updateSchema), controller.updSubscription)
+
+router.patch('/avatars', authenticate, upload.single('avatar'), controller.updAvatar)
 
 module.exports = router
